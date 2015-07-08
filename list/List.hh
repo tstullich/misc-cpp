@@ -21,10 +21,16 @@ class List
 };
 
 template <class T>
+List<T>::List()
+{
+    head = nullptr;
+}
+
+template <class T>
 bool List<T>::contains(const T value) const
 {
     auto temp = head.get();
-    while (temp != nullptr)
+    while (temp)
     {
         if (temp->value() == value)
         {
@@ -36,15 +42,9 @@ bool List<T>::contains(const T value) const
 }
 
 template <class T>
-List<T>::List()
-{
-    head = nullptr;
-}
-
-template <class T>
 void List<T>::insertRec(T value, NodePtr<T> &node)
 {
-    if (node->next == nullptr)
+    if (!node->next)
     {
         auto newNode = std::make_unique<Node<T>>(value);
         node->next = std::move(newNode);
@@ -59,7 +59,7 @@ void List<T>::insertRec(T value, NodePtr<T> &node)
 template <class T>
 void List<T>::insert(const T value)
 {
-    if (head == nullptr)
+    if (!head)
     {
         head = std::make_unique<Node<T>>(value);
         return;
@@ -74,7 +74,7 @@ template <class T>
 void List<T>::print() const
 {
     auto temp = head.get();
-    while (temp != nullptr)
+    while (temp)
     {
         std::cout << temp->value() << " ";
         temp = temp->next.get();
@@ -86,7 +86,7 @@ template <class T>
 void List<T>::removeRec(T value, NodePtr<T> &node)
 {
     // If we are out of values simply return
-    if (node->next == nullptr)
+    if (!node->next)
     {
         return;
     }
