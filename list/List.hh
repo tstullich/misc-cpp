@@ -1,8 +1,8 @@
 #ifndef __LIST_H_INCLUDED__
 #define __LIST_H_INCLUDED__
 
-#include <iostream>
 #include "Node.hh"
+#include <iostream>
 
 template <class T>
 class List
