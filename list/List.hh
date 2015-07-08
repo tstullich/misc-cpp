@@ -42,7 +42,7 @@ bool List<T>::contains(const T value) const
 }
 
 template <class T>
-void List<T>::insertRec(T value, NodePtr<T> &node)
+void List<T>::insertRec(const T value, NodePtr<T> &node)
 {
     if (!node->next)
     {
