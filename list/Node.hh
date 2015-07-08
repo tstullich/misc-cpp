@@ -6,14 +6,14 @@ class Node
 {
     public:
         Node(T value);
-        std::shared_ptr<Node<T>> next;
+        std::unique_ptr<Node<T>> next;
         T value() const;
     private:
         T val;
 };
 
 template <typename T>
-using NodePtr = std::shared_ptr<Node<T>>;
+using NodePtr = std::unique_ptr<Node<T>>;
 
 template <class T>
 Node<T>::Node(T value)

@@ -23,14 +23,14 @@ class List
 template <class T>
 bool List<T>::contains(const T value) const
 {
-    NodePtr<T> temp = head;
+    auto temp = head.get();
     while (temp != nullptr)
     {
         if (temp->value() == value)
         {
             return true;
         }
-        temp = temp->next;
+        temp = temp->next.get();
     }
     return false; 
 }
@@ -46,8 +46,8 @@ void List<T>::insertRec(T value, NodePtr<T> &node)
 {
     if (node->next == nullptr)
     {
-        auto newNode = std::make_shared<Node<T>>(value);
-        node->next = newNode;
+        auto newNode = std::make_unique<Node<T>>(value);
+        node->next = std::move(newNode);
         return;
     }
     else
@@ -61,24 +61,23 @@ void List<T>::insert(const T value)
 {
     if (head == nullptr)
     {
-        head = std::make_shared<Node<T>>(value);
+        head = std::make_unique<Node<T>>(value);
         return;
     }
     else
     {
-        NodePtr<T> temp = head;
-        insertRec(value, temp);
+        insertRec(value, head);
     }
 }
 
 template <class T>
 void List<T>::print() const
 {
-    NodePtr<T> temp = head;
+    auto temp = head.get();
     while (temp != nullptr)
     {
         std::cout << temp->value() << " ";
-        temp = temp->next;
+        temp = temp->next.get();
     }
     std::cout << std::endl;
 }
@@ -93,7 +92,9 @@ void List<T>::removeRec(T value, NodePtr<T> &node)
     }
     if (node->next->value() == value)
     {
-        node->next = node->next->next;
+        auto temp = std::move(node->next->next);
+        node->next.release();
+        node->next = std::move(temp);
         return;
     }
     else
@@ -108,13 +109,14 @@ void List<T>::remove(T value)
     // If head contains the value simply remove it
     if (head->value() == value)
     {
-        head = head->next;
+        auto temp = std::move(head->next);
+        head.release();
+        head = std::move(temp);
         return;
     }
     else
     {
-        NodePtr<T> temp = head;
-        removeRec(value, temp);
+        removeRec(value, head);
     }
 }
 
