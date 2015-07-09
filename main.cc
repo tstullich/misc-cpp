@@ -36,9 +36,13 @@ int main() {
         std::cout << "List contains 20" << std::endl;
     }
 
+    std::cout << "Tree" << std::endl;
     BinaryTree<int> tree;
+    tree.insert(5);
     tree.insert(1);
     tree.insert(2);
+    tree.insert(8);
+    tree.insert(9);
 
     tree.print();
 	return 0;
