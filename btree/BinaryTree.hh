@@ -14,7 +14,7 @@ class BinaryTree
     private:
         BTreeNodePtr<T> root;
         void insertRec(const T value, BTreeNodePtr<T> &node);
-        void printRec(BTreeNodePtr<T> &node) const;
+        void printRec(BTreeNodePtr<T> &node);
 };
 
 template <class T>
@@ -24,7 +24,7 @@ BinaryTree<T>::BinaryTree()
 }
 
 template <class T>
-void insertRec(const T value, BTreeNodePtr<T> &node)
+void BinaryTree<T>::insertRec(const T value, BTreeNodePtr<T> &node)
 {
     // Reached an empty node. Create new one here
     if (!node)
@@ -33,7 +33,7 @@ void insertRec(const T value, BTreeNodePtr<T> &node)
         return;
     }
     // Going to recurse left
-    if (node->value > value)
+    if (node->value() > value)
     {
         insertRec(value, node->left);
     }
@@ -58,7 +58,7 @@ void BinaryTree<T>::insert(const T value)
 }
 
 template <class T>
-void BinaryTree<T>::printRec(BTreeNodePtr<T> &node) const
+void BinaryTree<T>::printRec(BTreeNodePtr<T> &node)
 {
     if (!node)
     {
@@ -72,8 +72,8 @@ void BinaryTree<T>::printRec(BTreeNodePtr<T> &node) const
 template <class T>
 void BinaryTree<T>::print()
 {
-    auto temp = root.get();
-    printRec(temp);
+    printRec(root);
+    std::cout << std::endl;
 }
 
 #endif // __BINARYTREE_H_INCLUDED__
