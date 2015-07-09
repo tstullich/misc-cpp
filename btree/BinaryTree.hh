@@ -11,6 +11,7 @@ class BinaryTree
         BinaryTree();
         void insert(const T value);
         void print();
+        void remove(const T value);
     private:
         BTreeNodePtr<T> root;
         void insertRec(const T value, BTreeNodePtr<T> &node);
@@ -76,4 +77,9 @@ void BinaryTree<T>::print()
     std::cout << std::endl;
 }
 
+template <class T>
+void BinaryTree<T>::remove(const T value)
+{
+    // TODO implement
+}
 #endif // __BINARYTREE_H_INCLUDED__
