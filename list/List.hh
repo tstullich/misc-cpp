@@ -13,8 +13,10 @@ class List
         void insert(const T value);
         void print() const;
         void remove(const T value);
+        const int size() const;
 
     private:
+        int l_size;
         NodePtr<T> head;
         void insertRec(const T value, NodePtr<T> &node);
         void removeRec(const T value, NodePtr<T> &node);
@@ -23,6 +25,7 @@ class List
 template <class T>
 List<T>::List()
 {
+    l_size = 0;
     head = nullptr;
 }
 
@@ -47,6 +50,7 @@ void List<T>::insertRec(const T value, NodePtr<T> &node)
     if (!node->next)
     {
         node->next = std::make_unique<Node<T>>(value);
+        l_size++;
         return;
     }
     else
@@ -61,6 +65,7 @@ void List<T>::insert(const T value)
     if (!head)
     {
         head = std::make_unique<Node<T>>(value);
+        l_size++;
         return;
     }
     else
@@ -94,6 +99,7 @@ void List<T>::removeRec(T value, NodePtr<T> &node)
         auto temp = std::move(node->next->next);
         node->next.release();
         node->next = std::move(temp);
+        l_size--;
         return;
     }
     else
@@ -111,6 +117,7 @@ void List<T>::remove(T value)
         auto temp = std::move(head->next);
         head.release();
         head = std::move(temp);
+        l_size++;
         return;
     }
     else
@@ -119,4 +126,9 @@ void List<T>::remove(T value)
     }
 }
 
+template <class T>
+const int List<T>::size() const
+{
+    return l_size;
+}
 #endif // __LIST_H_INCLUDED__

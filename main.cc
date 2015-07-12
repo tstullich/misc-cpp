@@ -6,19 +6,24 @@
 void testList()
 {
     List<int> l;
-    for (int i = 1; i <= 100; i++) 
+    for (int i = 1; i <= 30; i++)
     {
         l.insert(i);
+        if (i % 5 == 0)
+        {
+            std::cout << "List Size: " << l.size() << std::endl;
+        }
     }
     
     l.print();
 
-    if (l.contains(20)) 
+    if (l.contains(20))
     {
         std::cout << "List contains 20" << std::endl;
+        std::cout << "List Size: " << l.size() << std::endl;
     }
 
-    for (int j = 10; j <= 100; j += 10) 
+    for (int j = 10; j <= 30; j += 10)
     {
         l.remove(j);
     }
@@ -28,6 +33,7 @@ void testList()
     if (!l.contains(20))
     {
         std::cout << "List does NOT contain 20" << std::endl;
+        std::cout << "List Size: " << l.size() << std::endl;
     }
 
     l.insert(20);
@@ -36,6 +42,7 @@ void testList()
     if (l.contains(20))
     {
         std::cout << "List contains 20" << std::endl;
+        std::cout << "List Size: " << l.size() << std::endl;
     }
 }
 
