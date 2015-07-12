@@ -39,4 +39,10 @@ void DLNode<T>::set_next(std::unique_ptr<DLNode<T>> &value)
 {
     next = value;
 }
+
+template <class T>
+void DLNode<T>::set_prev(std::unique_ptr<DLNode<T>> &value)
+{
+    previous = value;
+}
 #endif // __DLNODE_H_INCLUDED__
