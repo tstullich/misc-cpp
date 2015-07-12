@@ -5,19 +5,26 @@
 #include <iostream>
 
 template <class T>
+class DLList;
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, const DLList<T> &list);
+
+template <class T>
 class DLList
 {
     public:
         DLList();
         DLList(const T &value);
+        const DLNodePtr<T> back() const;
         bool contains(const T &value) const;
         const DLNodePtr<T> front() const;
         void insert(const T &value);
         void insert_back(const T &value);
         void insert_front(const T &value);
-        void print() const;
         void remove(const T &value);
         int size() const;
+        friend std::ostream& operator<< <>(std::ostream& os, const DLList &list);
 
     private:
         int l_size;
@@ -42,6 +49,12 @@ DLList<T>::DLList(const T &value)
 }
 
 template <class T>
+const DLNodePtr<T> DLList<T>::back() const
+{
+    return tail;
+}
+
+template <class T>
 bool DLList<T>::contains(const T &value) const
 {
     auto temp = head;
@@ -54,6 +67,12 @@ bool DLList<T>::contains(const T &value) const
         temp = temp->get_next();
     }
     return false;
+}
+
+template <class T>
+const DLNodePtr<T> DLList<T>::front() const
+{
+    return head;
 }
 
 template <class T>
@@ -101,9 +120,35 @@ void DLList<T>::insert_front(const T &value)
 }
 
 template <class T>
+void DLList<T>::remove(const T &value)
+{
+    auto temp = head;
+    while (temp)
+    {
+        if (temp->value() == value)
+        {
+            // TODO need to do removal here
+        }
+        temp = temp->get_next();
+    }
+}
+
+template <class T>
 int DLList<T>::size() const
 {
     return l_size;
+}
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, const DLList<T> &list)
+{
+    auto temp = list.head;
+    while (temp)
+    {
+        os << temp->value() << " ";
+        temp = temp->get_next();
+    }
+    return os;
 }
 
 #endif // __DLLLIST_H_INCLUDED__
