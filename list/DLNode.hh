@@ -9,16 +9,20 @@ class DLNode
     public:
         DLNode(T value);
         T value() const;
-        void set_next(std::unique_ptr<DLNode<T>> &value);
-        void set_prev(std::unique_ptr<DLNode<T>> &value);
+        std::shared_ptr<DLNode<T>> get_next();
+        std::shared_ptr<DLNode<T>> get_previous();
+        void set_next(std::shared_ptr<DLNode<T>> &value);
+        void set_prev(std::shared_ptr<DLNode<T>> &value);
+        void set_value(const T &value);
+
     private:
         T val;
-        std::unique_ptr<DLNode<T>> next;
-        std::unique_ptr<DLNode<T>> previous;
+        std::shared_ptr<DLNode<T>> next;
+        std::shared_ptr<DLNode<T>> previous;
 };
 
 template <typename T>
-using DLNodePtr = std::unique_ptr<DLNode<T>>;
+using DLNodePtr = std::shared_ptr<DLNode<T>>;
 
 template <class T>
 DLNode<T>::DLNode(T value)
@@ -35,14 +39,33 @@ T DLNode<T>::value() const
 }
 
 template <class T>
-void DLNode<T>::set_next(std::unique_ptr<DLNode<T>> &value)
+std::shared_ptr<DLNode<T>> DLNode<T>::get_next()
+{
+    return next;
+}
+
+template <class T>
+std::shared_ptr<DLNode<T>> DLNode<T>::get_previous()
+{
+    return previous;
+}
+
+template <class T>
+void DLNode<T>::set_next(std::shared_ptr<DLNode<T>> &value)
 {
     next = value;
 }
 
 template <class T>
-void DLNode<T>::set_prev(std::unique_ptr<DLNode<T>> &value)
+void DLNode<T>::set_prev(std::shared_ptr<DLNode<T>> &value)
 {
     previous = value;
 }
+
+template <class T>
+void DLNode<T>::set_value(const T &value)
+{
+    val = value;
+}
+
 #endif // __DLNODE_H_INCLUDED__
