@@ -1,5 +1,6 @@
 #include <iostream>
 #include "list/List.hh"
+#include "list/DLList.hh"
 #include "btree/BinaryTree.hh"
 #include "stack/Stack.hh"
 
@@ -57,9 +58,24 @@ void testBTree()
     tree.print();
 }
 
+void testDLList()
+{
+    DLList<int> list;
+    list.insert(1);
+    list.insert(2);
+    list.insert(3);
+    list.insert(4);
+    if (list.contains(3))
+    {
+        std::cout << "Linked List contains 1" << std::endl;
+    }
+    std::cout << "List size: " << list.size() << std::endl;
+}
+
 int main() {
     testList();
     testBTree();
+    testDLList();
 
 	return 0;
 }
