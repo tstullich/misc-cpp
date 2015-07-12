@@ -1,8 +1,10 @@
 #include <iostream>
 #include "list/List.hh"
 #include "btree/BinaryTree.hh"
+#include "stack/Stack.hh"
 
-int main() {
+void testList()
+{
     List<int> l;
     for (int i = 1; i <= 100; i++) 
     {
@@ -35,15 +37,22 @@ int main() {
     {
         std::cout << "List contains 20" << std::endl;
     }
+}
 
-    std::cout << "Tree" << std::endl;
+void testBTree()
+{
     BinaryTree<int> tree;
     tree.insert(5);
     tree.insert(1);
     tree.insert(2);
     tree.insert(8);
     tree.insert(9);
-
     tree.print();
+}
+
+int main() {
+    testList();
+    testBTree();
+
 	return 0;
 }
