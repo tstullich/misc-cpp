@@ -46,8 +46,7 @@ void List<T>::insertRec(const T value, NodePtr<T> &node)
 {
     if (!node->next)
     {
-        auto newNode = std::make_unique<Node<T>>(value);
-        node->next = std::move(newNode);
+        node->next = std::make_unique<Node<T>>(value);
         return;
     }
     else
