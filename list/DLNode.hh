@@ -7,22 +7,34 @@ template <class T>
 class DLNode
 {
     public:
+        DLNode();
         DLNode(T value);
         T value() const;
-        std::shared_ptr<DLNode<T>> get_next();
-        std::shared_ptr<DLNode<T>> get_previous();
-        void set_next(std::shared_ptr<DLNode<T>> &value);
-        void set_prev(std::shared_ptr<DLNode<T>> &value);
+        std::unique_ptr<DLNode<T>>& get_next();
+        DLNode<T>* get_previous();
+        void set_next(std::unique_ptr<DLNode<T>> &value);
+        void set_previous(DLNode<T>* value);
         void set_value(const T &value);
 
     private:
         T val;
-        std::shared_ptr<DLNode<T>> next;
-        std::shared_ptr<DLNode<T>> previous;
+        std::unique_ptr<DLNode<T>> next;
+        DLNode<T> *previous;
 };
 
 template <typename T>
-using DLNodePtr = std::shared_ptr<DLNode<T>>;
+using DLNodePtr = std::unique_ptr<DLNode<T>>;
+
+template <typename T>
+using DLNodeObsPtr = std::shared_ptr<DLNode<T>>;
+
+template <class T>
+DLNode<T>::DLNode()
+{
+    val = -1;
+    next = nullptr;
+    previous = nullptr;
+}
 
 template <class T>
 DLNode<T>::DLNode(T value)
@@ -39,25 +51,25 @@ T DLNode<T>::value() const
 }
 
 template <class T>
-std::shared_ptr<DLNode<T>> DLNode<T>::get_next()
+std::unique_ptr<DLNode<T>>& DLNode<T>::get_next()
 {
     return next;
 }
 
 template <class T>
-std::shared_ptr<DLNode<T>> DLNode<T>::get_previous()
+DLNode<T>* DLNode<T>::get_previous()
 {
     return previous;
 }
 
 template <class T>
-void DLNode<T>::set_next(std::shared_ptr<DLNode<T>> &value)
+void DLNode<T>::set_next(std::unique_ptr<DLNode<T>> &value)
 {
-    next = value;
+    next = std::move(value);
 }
 
 template <class T>
-void DLNode<T>::set_prev(std::shared_ptr<DLNode<T>> &value)
+void DLNode<T>::set_previous(DLNode<T>* value)
 {
     previous = value;
 }

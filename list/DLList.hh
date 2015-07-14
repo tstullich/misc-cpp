@@ -16,7 +16,7 @@ class DLList
     public:
         DLList();
         DLList(const T &value);
-        const DLNodePtr<T> back() const;
+        const DLNode<T>* back() const;
         bool contains(const T &value) const;
         const DLNodePtr<T> front() const;
         void insert(const T &value);
@@ -44,27 +44,32 @@ template <class T>
 DLList<T>::DLList(const T &value)
 {
     l_size = 1;
-    head = std::make_shared<DLNode<T>>(value);
-    tail = head;
+    head = std::make_unique<DLNode<T>>(value);
+    head = std::make_unique<DLNode<T>>();
+    tail->set_prev(head);
 }
 
 template <class T>
-const DLNodePtr<T> DLList<T>::back() const
+const DLNode<T>* DLList<T>::back() const
 {
+    if (!tail)
+    {
+        return head.get();
+    }
     return tail;
 }
 
 template <class T>
 bool DLList<T>::contains(const T &value) const
 {
-    auto temp = head;
+    auto temp = head.get();
     while (temp)
     {
         if (temp->value() == value)
         {
             return true;
         }
-        temp = temp->get_next();
+        temp = temp->get_next().get();
     }
     return false;
 }
@@ -86,16 +91,20 @@ void DLList<T>::insert_back(const T &value)
 {
     if ((head == nullptr) && (tail == nullptr))
     {
-        head = std::make_shared<DLNode<T>>(value);
-        tail = head;
+        head = std::make_unique<DLNode<T>>(value);
+        tail = std::make_unique<DLNode<T>>();
+        tail->set_previous(head.get());
         l_size++;
     }
     else
     {
-        auto new_node = std::make_shared<DLNode<T>>(value);
-        new_node->set_prev(tail);
-        tail->set_next(new_node);
-        tail = new_node;
+        auto prev = tail->get_previous();
+        auto owning_ptr = std::make_unique<DLNode<T>>(value);
+        prev->set_next(owning_ptr);
+        auto new_node = std::make_unique<DLNode<T>>();
+        new_node->set_previous(prev->get_next().get());
+        tail.release();
+        tail = std::move(new_node);
         l_size++;
     }
 }
@@ -142,11 +151,11 @@ int DLList<T>::size() const
 template <class T>
 std::ostream& operator<<(std::ostream& os, const DLList<T> &list)
 {
-    auto temp = list.head;
+    auto temp = list.head.get();
     while (temp)
     {
         os << temp->value() << " ";
-        temp = temp->get_next();
+        temp = temp->get_next().get();
     }
     return os;
 }
