@@ -70,6 +70,8 @@ void testDLList()
         std::cout << "Linked List contains 1" << std::endl;
     }
     std::cout << list << std::endl;
+    list.insert_front(7);
+    std::cout << list << std::endl;
     std::cout << "List size: " << list.size() << std::endl;
 }
 

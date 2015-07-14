@@ -114,16 +114,17 @@ void DLList<T>::insert_front(const T &value)
 {
     if ((head == nullptr) && (tail == nullptr))
     {
-        head = std::make_shared<DLNode<T>>(value);
-        tail = head;
+        head = std::make_unique<DLNode<T>>(value);
+        tail = std::make_unique<DLNode<T>>();
+        tail->set_previous(head.get());
         l_size = 1;
     }
     else
     {
-        auto new_node = std::make_shared<DLNode<T>>(value);
+        auto new_node = std::make_unique<DLNode<T>>(value);
+        head->set_previous(new_node.get());
         new_node->set_next(head);
-        head->set_prev(new_node);
-        head = new_node;
+        head = std::move(new_node);
         l_size++;
     }
 }
