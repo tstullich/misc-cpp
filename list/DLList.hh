@@ -56,7 +56,7 @@ const DLNode<T>* DLList<T>::back() const
     {
         return head.get();
     }
-    return tail;
+    return tail->get_previous();
 }
 
 template <class T>
