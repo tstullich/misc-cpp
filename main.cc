@@ -16,7 +16,7 @@ void testList()
         }
     }
     
-    l.print();
+    std::cout << l << std::endl;
 
     if (l.contains(20))
     {
@@ -29,7 +29,7 @@ void testList()
         l.remove(j);
     }
 
-    l.print();
+    std::cout << l << std::endl;
     
     if (!l.contains(20))
     {
@@ -38,7 +38,7 @@ void testList()
     }
 
     l.insert(20);
-    l.print();
+    std::cout << l << std::endl;
     
     if (l.contains(20))
     {

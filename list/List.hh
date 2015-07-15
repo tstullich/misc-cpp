@@ -133,8 +133,8 @@ std::ostream& operator<<(std::ostream& os, const List<T> &list)
     while (temp)
     {
         os << temp->value() << " ";
+        temp = temp->next.get();
     }
-    os << std::endl;
     return os;
 }
 #endif // __LIST_H_INCLUDED__
