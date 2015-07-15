@@ -5,15 +5,21 @@
 #include <iostream>
 
 template <class T>
+class List;
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, const List<T> &list);
+
+template <class T>
 class List
 {
     public:
         List();
         bool contains(const T value) const;
         void insert(const T value);
-        void print() const;
         void remove(const T value);
-        const int size() const;
+        int size() const;
+        friend std::ostream& operator<< <>(std::ostream& os, const List &list);
 
     private:
         int l_size;
@@ -75,18 +81,6 @@ void List<T>::insert(const T value)
 }
 
 template <class T>
-void List<T>::print() const
-{
-    auto temp = head.get();
-    while (temp)
-    {
-        std::cout << temp->value() << " ";
-        temp = temp->next.get();
-    }
-    std::cout << std::endl;
-}
-
-template <class T>
 void List<T>::removeRec(T value, NodePtr<T> &node)
 {
     // If we are out of values simply return
@@ -127,8 +121,20 @@ void List<T>::remove(T value)
 }
 
 template <class T>
-const int List<T>::size() const
+int List<T>::size() const
 {
     return l_size;
+}
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, const List<T> &list)
+{
+    auto temp = list.head.get();
+    while (temp)
+    {
+        os << temp->value() << " ";
+    }
+    os << std::endl;
+    return os;
 }
 #endif // __LIST_H_INCLUDED__
