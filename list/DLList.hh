@@ -28,41 +28,41 @@ class DLList
 
     private:
         int l_size;
-        DLNodePtr<T> head;
-        DLNodePtr<T> tail;
+        DLNodePtr<T> _head;
+        DLNodePtr<T> _tail;
 };
 
 template <class T>
 DLList<T>::DLList()
 {
     l_size = 0;
-    head = nullptr;
-    tail = nullptr;
+    _head = nullptr;
+    _tail = nullptr;
 }
 
 template <class T>
 DLList<T>::DLList(const T &value)
 {
     l_size = 1;
-    head = std::make_unique<DLNode<T>>(value);
-    head = std::make_unique<DLNode<T>>();
-    tail->set_prev(head);
+    _head = std::make_unique<DLNode<T>>(value);
+    _head = std::make_unique<DLNode<T>>();
+    _tail->set_prev(_head);
 }
 
 template <class T>
 const DLNode<T>* DLList<T>::back() const
 {
-    if (!tail)
+    if (!_tail)
     {
-        return head.get();
+        return _head.get();
     }
-    return tail->get_previous();
+    return _tail->get_previous();
 }
 
 template <class T>
 bool DLList<T>::contains(const T &value) const
 {
-    auto temp = head.get();
+    auto temp = _head.get();
     while (temp)
     {
         if (temp->value() == value)
@@ -77,7 +77,7 @@ bool DLList<T>::contains(const T &value) const
 template <class T>
 const DLNodePtr<T> DLList<T>::front() const
 {
-    return head;
+    return _head;
 }
 
 template <class T>
@@ -89,22 +89,22 @@ void DLList<T>::insert(const T &value)
 template <class T>
 void DLList<T>::insert_back(const T &value)
 {
-    if ((head == nullptr) && (tail == nullptr))
+    if ((!_head) && (!_tail))
     {
-        head = std::make_unique<DLNode<T>>(value);
-        tail = std::make_unique<DLNode<T>>();
-        tail->set_previous(head.get());
+        _head = std::make_unique<DLNode<T>>(value);
+        _tail = std::make_unique<DLNode<T>>();
+        _tail->set_previous(_head.get());
         l_size++;
     }
     else
     {
-        auto prev = tail->get_previous();
+        auto prev = _tail->get_previous();
         auto owning_ptr = std::make_unique<DLNode<T>>(value);
         prev->set_next(owning_ptr);
         auto new_node = std::make_unique<DLNode<T>>();
         new_node->set_previous(prev->get_next().get());
-        tail.release();
-        tail = std::move(new_node);
+        _tail.release();
+        _tail = std::move(new_node);
         l_size++;
     }
 }
@@ -112,19 +112,19 @@ void DLList<T>::insert_back(const T &value)
 template <class T>
 void DLList<T>::insert_front(const T &value)
 {
-    if ((head == nullptr) && (tail == nullptr))
+    if ((!_head) && (!_tail))
     {
-        head = std::make_unique<DLNode<T>>(value);
-        tail = std::make_unique<DLNode<T>>();
-        tail->set_previous(head.get());
+        _head = std::make_unique<DLNode<T>>(value);
+        _tail = std::make_unique<DLNode<T>>();
+        _tail->set_previous(_head.get());
         l_size = 1;
     }
     else
     {
         auto new_node = std::make_unique<DLNode<T>>(value);
-        head->set_previous(new_node.get());
-        new_node->set_next(head);
-        head = std::move(new_node);
+        _head->set_previous(new_node.get());
+        new_node->set_next(_head);
+        _head = std::move(new_node);
         l_size++;
     }
 }
@@ -132,7 +132,7 @@ void DLList<T>::insert_front(const T &value)
 template <class T>
 void DLList<T>::remove(const T &value)
 {
-    auto temp = head;
+    auto temp = _head;
     while (temp)
     {
         if (temp->value() == value)
@@ -152,7 +152,7 @@ int DLList<T>::size() const
 template <class T>
 std::ostream& operator<<(std::ostream& os, const DLList<T> &list)
 {
-    auto temp = list.head.get();
+    auto temp = list._head.get();
     while (temp)
     {
         os << temp->value() << " ";
