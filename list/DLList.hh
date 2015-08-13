@@ -3,6 +3,7 @@
 
 #include "DLNode.hh"
 #include <iostream>
+#include <utility>
 
 template <class T>
 class DLList;
@@ -45,7 +46,7 @@ DLList<T>::DLList(const T &value)
 {
     l_size = 1;
     _head = std::make_unique<DLNode<T>>(value);
-    _head = std::make_unique<DLNode<T>>();
+    _tail = std::make_unique<DLNode<T>>();
     _tail->set_prev(_head);
 }
 

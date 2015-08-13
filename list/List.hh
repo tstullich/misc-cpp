@@ -16,13 +16,23 @@ class List
     public:
         List();
         bool contains(const T value) const;
+        bool empty() const;
+        const T& get(int index) const;
         void insert(const T value);
         void remove(const T value);
-        int size() const;
+        size_t size() const;
         friend std::ostream& operator<< <>(std::ostream& os, const List &list);
 
+        typedef T value_type;
+        typedef T *pointer;
+        typedef const T *const_pointer;
+        typedef T &reference;
+        typedef const T &const_reference;
+        typedef size_t size_type;
+        typedef ptrdiff_t difference_type;
+
     private:
-        int l_size;
+        size_t l_size;
         NodePtr<T> head;
         void insertRec(const T value, NodePtr<T> &node);
         void removeRec(const T value, NodePtr<T> &node);
@@ -48,6 +58,12 @@ bool List<T>::contains(const T value) const
         temp = temp->next.get();
     }
     return false; 
+}
+
+template <class T>
+bool List<T>::empty() const
+{
+    return l_size == 0;
 }
 
 template <class T>
@@ -78,6 +94,17 @@ void List<T>::insert(const T value)
     {
         insertRec(value, head);
     }
+}
+
+template <class T>
+const T& List<T>::get(int index) const
+{
+    auto temp = head.get();
+    while (--index > 0)
+    {
+        temp = temp->next.get();
+    }
+    return temp->value();
 }
 
 template <class T>
@@ -121,7 +148,7 @@ void List<T>::remove(T value)
 }
 
 template <class T>
-int List<T>::size() const
+size_t List<T>::size() const
 {
     return l_size;
 }

@@ -45,6 +45,8 @@ void testList()
         std::cout << "List contains 20" << std::endl;
         std::cout << "List Size: " << l.size() << std::endl;
     }
+
+    std::cout << l.get(1) << std::endl;
 }
 
 void testBTree()
